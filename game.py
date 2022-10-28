@@ -103,7 +103,48 @@ class Dwarves(Faction):  #The general structure is the same as the orcs class, w
         print("Taste the power of our axes!")
 
         
+class Elves(Faction):  # We just edit some numbers and names.
+    def __init__(self,name ="Elves"): 
+        pass
+        
+    def PerformAttack(self,enemy1,enemy2):  
+        if self.enemy1 and self.enemy2 == True :
+            if self.enemy1.name == "Dwarves":
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.6) #We made it 0.4*1.5 because it attacks drawves fifty percent more
+            if self.enemy2.name == "Dwarves":
+                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.6)    
+            if self.enemy1.name == "Orcs":
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.6)
+            if self.enemy2.name == "Orcs":
+                enemy2.ReceiveAttack(self.name,self.attack_points*self.number_of_units*0.6)
+        elif self.enemy1 or self.enemy2 ==True: #If there is only one living enemy and that drawves, we changed this part because the attack damage has changed. We have identified who the living enemy is.
+            if self.enemy1 == True:
+                if self.enemy1.name == "Orcs":
+                    enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units)
+                else:
+                    enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*1.5)
+            elif self.enemy2 == True:
+                if self.enemy2.name == "Orcs":
+                    enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units)  
+                else:
+                    enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*1.5)  
+                
+    
+    def ReceiveAttack(self,name_of_attacker, total_damage):  
+        if name_of_attacker == "Elves" : 
+            self.number_of_units =self.number_of_units-(total_damage/ self._health_points*1.25)
+        elif name_of_attacker == "Dwarves":
+            self.number_of_units =self.number_of_units-(total_damage/ self._health_points*0.75)
+        
+    
+    def PurchaseWeapons(self, number_of_weapons):  
+        self.attack_points = self.attack_points + number_of_weapons*2
 
+    def PurchaseArmors(self,number_of_armors): 
+        self._health_points = self._health_points + 4*number_of_armors
+    
+    def print(self):
+        print("You cannot reach  our elegance.")
 
 Faction1 = Faction()
 
