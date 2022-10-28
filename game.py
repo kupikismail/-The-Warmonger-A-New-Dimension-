@@ -65,6 +65,43 @@ class Orcs(Faction): # orcs child class created,all features and functions defin
     def print(self):
         print("Stop running, you’ll only die tired!")
 
+class Dwarves(Faction):  #The general structure is the same as the orcs class, we just edit some numbers and names.
+    def __init__(self,name ="Dwarves"): 
+        pass
+        
+    def PerformAttack(self,enemy1,enemy2):  
+        if self.enemy1 and self.enemy2 == True :
+            if self.enemy1.name == "Elves":
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.5)
+            if self.enemy2.name == "Elves":
+                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.5)    
+            if self.enemy1.name == "Orcs":
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.5)
+            if self.enemy2.name == "Orcs":
+                enemy2.ReceiveAttack(self.name,self.attack_points*self.number_of_units*0.5)
+        elif self.enemy1 or self.enemy2 ==True:
+            if self.enemy1 == True:
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units)
+            elif self.enemy2 == True:
+                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units)  
+              
+    
+    def ReceiveAttack(self,name_of_attacker, total_damage):  
+        if name_of_attacker == "Elves" : 
+            self.number_of_units =self.number_of_units-(total_damage/ self._health_points)
+        elif name_of_attacker == "Orcs":
+            self.number_of_units =self.number_of_units-(total_damage/ self._health_points)
+        
+    
+    def PurchaseWeapons(self, number_of_weapons):  
+        self.attack_points = self.attack_points + number_of_weapons
+
+    def PurchaseArmors(self,number_of_armors): 
+        self._health_points = self._health_points + 2*number_of_armors
+    
+    def print(self):
+        print("Taste the power of our axes!")
+
         
 
 
