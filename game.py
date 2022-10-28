@@ -27,8 +27,37 @@ class Faction():  #Here we created a parent class for factions
     def Print(self):#we will create in the future
         pass
         
+
+class Orcs(Faction):
+    def __init__(self):
+        pass
         
+    def PerformAttack(self,enemy1,enemy2):
+        if self.enemy1 and self.enemy2 == True :
+            if self.enemy1.name == "Elves":
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.7,2)
+            if self.enemy2.name == "Elves":
+                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.7,2)    
+            if self.enemy1.name == "Dwarves":
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.3,2)
+            if self.enemy2.name == "Dwarves":
+                enemy2.ReceiveAttack(self.name,self.attack_points*self.number_of_units*0.3,2)
+        elif self.enemy1 or self.enemy2 ==True:
+            if self.enemy1 == True:
+                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units,1)
+            elif self.enemy2 == True:
+                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units,1)  
+              
     
+    def ReceiveAttack(self):
+        pass
+
+    def PurchaseArmors(self):
+        pass
+    
+    def print(self):
+        print("Stop running, you’ll only die tired!")
+
         
 
 
