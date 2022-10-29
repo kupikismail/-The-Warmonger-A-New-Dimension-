@@ -55,8 +55,8 @@ class Faction():  #Here we created a parent class for factions
                  
 
 class Orcs(Faction): # orcs child class created,all features and functions defined in the Faction class have been made available
-    def __init__(self): #We can use the features in the faction class so we don't need to add anything here
-        pass
+    def __init__(self,name, number_of_units, attack_point, health_point,unit_regeneration_number ): #We can use the features in the faction class so we don't need to add anything here
+        super().__init__(name, number_of_units, attack_point, health_point,unit_regeneration_number)
         
     def PerformAttack(self,enemy1,enemy2): #We have defined the perform attack function. Enemy1 and enemy2 refer to enemy classes. Below we have specified the attack damage that should be performed according to how many of the enemies are alive and which enemy is alive. We calculated the relevant attack damage according to these conditions.
         if self.enemy1 and self.enemy2 == True :
@@ -91,8 +91,8 @@ class Orcs(Faction): # orcs child class created,all features and functions defin
 
 
 class Dwarves(Faction):  #The general structure is the same as the orcs class, we just edit some numbers and names.
-    def __init__(self,name ="Dwarves"): 
-        pass
+    def __init__(self,name, number_of_units, attack_point, health_point,unit_regeneration_number ): #We can use the features in the faction class so we don't need to add anything here
+        super().__init__(name, number_of_units, attack_point, health_point,unit_regeneration_number)
         
     def PerformAttack(self,enemy1,enemy2):  
         if self.enemy1 and self.enemy2 == True :
@@ -128,9 +128,9 @@ class Dwarves(Faction):  #The general structure is the same as the orcs class, w
 
         
 class Elves(Faction):  # We just edit some numbers and names.
-    def __init__(self,name ="Elves"): 
-        pass
-        
+    def __init__(self,name, number_of_units, attack_point, health_point,unit_regeneration_number ): #We can use the features in the faction class so we don't need to add anything here
+        super().__init__(name, number_of_units, attack_point, health_point,unit_regeneration_number)
+
     def PerformAttack(self,enemy1,enemy2):  
         if self.enemy1 and self.enemy2 == True :
             if self.enemy1.name == "Dwarves":
@@ -195,9 +195,9 @@ class Merchant():  #Merchant class has been created and the following features (
         self.Elves_regeneration_number = 10
     
     def AssignFactions(self): #The factions in the game are assigned for Merchant to use.
-        self.faction_Orcs= Orcs
-        self.faction_Dwarves = Dwarves
-        self.faction_Elves = Elves
+        self.faction_Orcs= Orcs("Orcs",self.Orcs_unit_number,self.Orcs_attack_point,self.Orcs_health_point,self.Orcs_regeneration_number)
+        self.faction_Dwarves = Dwarves("Dwarves",self.Dwarves_unit_number,self.Dwarves_attack_point,self.Dwarves_health_point,self.Dwarves_regeneration_number)
+        self.faction_Elves = Elves("Elves", self.Elves_unit_number,self.Elves_attack_point,self.Elves_health_point,self.Elves_regeneration_number)
     def SellWeapons(self,who, how_many): #Function that allows Merchant to sell weapons to factions
         if who.alive == True:
             if self.weapon_point_left >= how_many:
@@ -249,7 +249,7 @@ class Merchant():  #Merchant class has been created and the following features (
                         self.starting_armor_point == int(input())
                     else:
                         print("There is no such option, write 1 if you want to make another changes, press 0 if not")
-                        user_desicion = input()
+                        user_desicion = input()  # All subsequent user inputs are named user_desicion. To avoid constantly finding new variable name.
                         if int(user_desicion) == 1:
                             pass
                         elif int(user_desicion)  == 0 :
@@ -336,6 +336,30 @@ class Merchant():  #Merchant class has been created and the following features (
                     elif user_desicion == 0 :
                         game_change_request == 0
 
+        self.AssignFactions()  #we created factions according to player's options
+
+        print("The options related to the game and how to use it are stated below. You can perform the action you want to do by writing it into the terminal.")
+        
+        while game_status ==1:
+            print("Write 1 to see the information of the factions, 2 to sell weapons and armors, 3 to end the day, 4 to start a new game, and 5 to end the game.")
+            user_desicion = int(input())
+
+            if user_desicion == 1 :  #From here, we print the information of the factions using the common print function in the faction class.
+                print("Specify which faction's information you want to see. Type 1 for Orcs, 2 for Dwarves, and 3 for Elves.")
+                user_desicion = int(input())
+                if user_desicion == 1:
+                    self.faction_Orcs.Print()
+                elif user_desicion == 2:
+                    self.faction_Dwarves.Print()
+                elif user_desicion == 3 : 
+                    self.faction_Elves.Print()
+                else:
+                    print("There is no such option")
+            
+
+
+
+                
 
                 
                 
