@@ -161,7 +161,31 @@ class Merchant():  #Merchant class has been created and the following features (
         self.faction_Orcs= Orcs
         self.faction_Dwarves = Dwarves
         self.faction_Elves = Elves
-    
+    def SellWeapons(self,who, how_many): #Function that allows Merchant to sell weapons to factions
+        if who.alive == True:
+            if self.weapon_point_left >= how_many:
+                print("Weapons sold!")
+                return True
+            else:
+                print("You try to sell more weapons than you have in possession.")
+                return False
+                
+        else: 
+            print("The faction you want to sell weapons is dead!")
+        
+    def SellArmors(self,who, how_many): #Function that allows Merchant to sell armors to factions
+        if who.alive == True:
+            if self.armor_point_left >= how_many:
+                print("Armors sold!")
+                return True
+            else:
+                print("You try to sell more armors than you have in possession.")
+                return False
+                
+        else: 
+            print("The faction you want to sell armors is dead!")    
+        
+        
 
     
     
