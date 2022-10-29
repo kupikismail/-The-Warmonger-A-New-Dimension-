@@ -146,7 +146,23 @@ class Elves(Faction):  # We just edit some numbers and names.
     def print(self):
         print("You cannot reach  our elegance.")
 
-Faction1 = Faction()
+class Merchant():  #Merchant class has been created and the following features (some of them are offered to the user as options) are specified.
+    def __init__(self,starting_weapon_point =10, starting_armor_point= 10):
+        self.starting_weapon_point = starting_weapon_point
+        self.starting_armor_point = starting_armor_point
+        self.revenue = 0 
+        self.weapon_point_left= self.starting_weapon_point
+        self.armor_point_left = self. starting_armor_point
+        self.faction_Orcs = Orcs  #The factions in the game are assigned for Merchant to use.
+        self.faction_Dwarves = Dwarves
+        self.faction_Elves = Elves 
+    
+    
+
+
+
+
+
 
 
 
