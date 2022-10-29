@@ -185,7 +185,10 @@ class Merchant():  #Merchant class has been created and the following features (
         else: 
             print("The faction you want to sell armors is dead!")    
         
-        
+    def EndTurn(self):
+        self.weapon_point_left= self.starting_weapon_point
+        self.armor_point_left = self. starting_armor_point
+
 
     
     
