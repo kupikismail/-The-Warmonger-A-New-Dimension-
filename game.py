@@ -24,8 +24,25 @@ class Faction():  #Here we created a parent class for factions
     def PurchaseArmors(self): #we will create in the future
         pass
     
-    def Print(self):#we will create in the future
-        pass
+    def Print(self):#print function commonly used for factions and gives the following information
+        if self.name == "Orcs":
+            print("Stop running, you’ll only die tired!")
+        elif self.name == "Dwarves":
+            print("Taste the power of our axes!")
+        elif self.name == "Elves" :
+            print("You cannot reach  our elegance.")            
+
+        print("Faction Name: " , self.name)
+        print("Status:", end ="")
+        if self.alive == True:
+            print("Alive")
+        else:
+            print("Defeated")
+        print("Number of Units:", self.number_of_units)
+        print("Attack Point:", self.attack_points)
+        print("Health Point:", self._health_points)
+        print("Unit Regen Number:", self.unit_regeneration_number )
+        print("Total Faction Health:", self.total_health_points)
         
 
 class Orcs(Faction): # orcs child class created,all features and functions defined in the Faction class have been made available
@@ -62,8 +79,7 @@ class Orcs(Faction): # orcs child class created,all features and functions defin
     def PurchaseArmors(self,number_of_armors): #We increased the health point according to how many armors were bought
         self._health_points = self._health_points + 3*number_of_armors
     
-    def print(self):
-        print("Stop running, you’ll only die tired!")
+
 
 class Dwarves(Faction):  #The general structure is the same as the orcs class, we just edit some numbers and names.
     def __init__(self,name ="Dwarves"): 
@@ -99,8 +115,7 @@ class Dwarves(Faction):  #The general structure is the same as the orcs class, w
     def PurchaseArmors(self,number_of_armors): 
         self._health_points = self._health_points + 2*number_of_armors
     
-    def print(self):
-        print("Taste the power of our axes!")
+
 
         
 class Elves(Faction):  # We just edit some numbers and names.
@@ -143,8 +158,7 @@ class Elves(Faction):  # We just edit some numbers and names.
     def PurchaseArmors(self,number_of_armors): 
         self._health_points = self._health_points + 4*number_of_armors
     
-    def print(self):
-        print("You cannot reach  our elegance.")
+ 
 
 class Merchant():  #Merchant class has been created and the following features (some of them are offered to the user as options) are specified.
     def __init__(self,starting_weapon_point =10, starting_armor_point= 10):
