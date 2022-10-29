@@ -153,9 +153,16 @@ class Merchant():  #Merchant class has been created and the following features (
         self.revenue = 0 
         self.weapon_point_left= self.starting_weapon_point
         self.armor_point_left = self. starting_armor_point
-        self.faction_Orcs = Orcs  #The factions in the game are assigned for Merchant to use.
+        self.faction_Orcs = None  
+        self.faction_Dwarves = None
+        self.faction_Elves = None 
+    
+    def AssignFactions(self): #The factions in the game are assigned for Merchant to use.
+        self.faction_Orcs= Orcs
         self.faction_Dwarves = Dwarves
-        self.faction_Elves = Elves 
+        self.faction_Elves = Elves
+    
+
     
     
 
