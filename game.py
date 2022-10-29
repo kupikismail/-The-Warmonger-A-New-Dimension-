@@ -5,23 +5,25 @@ class Faction():  #Here we created a parent class for factions
         self.number_of_units = number_of_units
         self.attack_points = attack_point
         self._health_points = health_point
-        self.total_health_points = self._health_points * self.number_of_units #(note: don't forget to update the total health point according to the updated number of units and health points)
+        self.total_health_points = self._health_points * self.number_of_units 
+        self.total_attack_power = self.attack_points*self.number_of_units #We created this to appropriately find the remaining number of units. Required for the endturn function to work properly 
         self.unit_regeneration_number = unit_regeneration_number
         self.alive = True
         self.AssignEnemies() #In this function we created below, we created the enemies according to the name of faction.
+
     def AssignEnemies(self):
         self.all_factions = ["Orcs", "Dwarves", "Elves" ]
         self.all_factions.remove(self.name)
         self.enemy1 = self.all_factions[0]
         self.enemy2 = self.all_factions[1]
 
-    def PerformAttack(self): #we will create in the future
+    def PerformAttack(self): #these are customized for child classes
         pass
     
-    def ReceiveAttack(self): #we will create in the future
+    def ReceiveAttack(self): #these are customized for child classes
         pass
     
-    def PurchaseArmors(self): #we will create in the future
+    def PurchaseArmors(self): #these are customized for child classes
         pass
     
     def Print(self):#print function commonly used for factions and gives the following information
@@ -43,7 +45,10 @@ class Faction():  #Here we created a parent class for factions
         print("Health Point:", self._health_points)
         print("Unit Regen Number:", self.unit_regeneration_number )
         print("Total Faction Health:", self.total_health_points)
-        
+    
+    def EndTurn(self): #This function updates the number of units, total health and alive status of the faction.
+        pass
+                 
 
 class Orcs(Faction): # orcs child class created,all features and functions defined in the Faction class have been made available
     def __init__(self): #We can use the features in the faction class so we don't need to add anything here
@@ -52,18 +57,18 @@ class Orcs(Faction): # orcs child class created,all features and functions defin
     def PerformAttack(self,enemy1,enemy2): #We have defined the perform attack function. Enemy1 and enemy2 refer to enemy classes. Below we have specified the attack damage that should be performed according to how many of the enemies are alive and which enemy is alive. We calculated the relevant attack damage according to these conditions.
         if self.enemy1 and self.enemy2 == True :
             if self.enemy1.name == "Elves":
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.7)
+                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.7)
             if self.enemy2.name == "Elves":
-                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.7)    
+                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.7)    
             if self.enemy1.name == "Dwarves":
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.3)
+                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.3)
             if self.enemy2.name == "Dwarves":
-                enemy2.ReceiveAttack(self.name,self.attack_points*self.number_of_units*0.3)
+                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.3)
         elif self.enemy1 or self.enemy2 ==True:
             if self.enemy1 == True:
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units)
+                enemy1.ReceiveAttack(self.name, self.total_attack_power)
             elif self.enemy2 == True:
-                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units)  
+                enemy2.ReceiveAttack(self.name, self.total_attack_power)  
               
     
     def ReceiveAttack(self,name_of_attacker, total_damage): #We calculated the reduction in damage based on who the damage came from and reduced the number of units accordingly.
@@ -88,18 +93,18 @@ class Dwarves(Faction):  #The general structure is the same as the orcs class, w
     def PerformAttack(self,enemy1,enemy2):  
         if self.enemy1 and self.enemy2 == True :
             if self.enemy1.name == "Elves":
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.5)
+                enemy1.ReceiveAttack(self.name,self.total_attack_power*0.5)
             if self.enemy2.name == "Elves":
-                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.5)    
+                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.5)    
             if self.enemy1.name == "Orcs":
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.5)
+                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.5)
             if self.enemy2.name == "Orcs":
-                enemy2.ReceiveAttack(self.name,self.attack_points*self.number_of_units*0.5)
+                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.5)
         elif self.enemy1 or self.enemy2 ==True:
             if self.enemy1 == True:
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units)
+                enemy1.ReceiveAttack(self.name,self.total_attack_power)
             elif self.enemy2 == True:
-                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units)  
+                enemy2.ReceiveAttack(self.name, self.total_attack_power)  
               
     
     def ReceiveAttack(self,name_of_attacker, total_damage):  
@@ -125,24 +130,24 @@ class Elves(Faction):  # We just edit some numbers and names.
     def PerformAttack(self,enemy1,enemy2):  
         if self.enemy1 and self.enemy2 == True :
             if self.enemy1.name == "Dwarves":
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.6) #We made it 0.4*1.5 because it attacks drawves fifty percent more
+                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.6) #We made it 0.4*1.5 because it attacks drawves fifty percent more
             if self.enemy2.name == "Dwarves":
-                enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.6)    
+                enemy2.ReceiveAttack(self.name, self.total_attack_power*0.6)    
             if self.enemy1.name == "Orcs":
-                enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*0.6)
+                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.6)
             if self.enemy2.name == "Orcs":
-                enemy2.ReceiveAttack(self.name,self.attack_points*self.number_of_units*0.6)
+                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.6)
         elif self.enemy1 or self.enemy2 ==True: #If there is only one living enemy and that drawves, we changed this part because the attack damage has changed. We have identified who the living enemy is.
             if self.enemy1 == True:
                 if self.enemy1.name == "Orcs":
-                    enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units)
+                    enemy1.ReceiveAttack(self.name, self.total_attack_power)
                 else:
-                    enemy1.ReceiveAttack(self.name, self.attack_points*self.number_of_units*1.5)
+                    enemy1.ReceiveAttack(self.name, self.total_attack_power*1.5)
             elif self.enemy2 == True:
                 if self.enemy2.name == "Orcs":
-                    enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units)  
+                    enemy2.ReceiveAttack(self.name, self.total_attack_power)  
                 else:
-                    enemy2.ReceiveAttack(self.name, self.attack_points*self.number_of_units*1.5)  
+                    enemy2.ReceiveAttack(self.name, self.total_attack_power*1.5)  
                 
     
     def ReceiveAttack(self,name_of_attacker, total_damage):  
