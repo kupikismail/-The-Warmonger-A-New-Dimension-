@@ -47,7 +47,11 @@ class Faction():  #Here we created a parent class for factions
         print("Total Faction Health:", self.total_health_points)
     
     def EndTurn(self): #This function updates the number of units, total health and alive status of the faction.
-        pass
+        self.total_attack_power = self.number_of_units* self.attack_points
+        self.total_health_points = self.number_of_units*self._health_points
+        if self.total_health_points <= 0 : 
+            self.alive == 0 
+        else: self.number_of_units = self.number_of_units + self.unit_regeneration_number
                  
 
 class Orcs(Faction): # orcs child class created,all features and functions defined in the Faction class have been made available
