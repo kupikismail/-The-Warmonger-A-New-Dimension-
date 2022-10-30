@@ -3,10 +3,10 @@ class Faction():  #Here we created a parent class for factions
     def __init__(self,name="Orcs", number_of_units= 50, attack_point=30, health_point=150,unit_regeneration_number=10 ): #we created some common attributes(If not specified, the values to the right of the equation will be used.)
         self.name = name  #one of the orcs, elves, and dwarves
         self.number_of_units = number_of_units
+        self.number_of_units_copy = self.number_of_units #we create number of units copy because getting an attack reduces the number of units, but it has to do the attack according to the number of units before the attack
         self.attack_points = attack_point
         self._health_points = health_point
         self.total_health_points = self._health_points * self.number_of_units 
-        self.total_attack_power = self.attack_points*self.number_of_units #We created this to appropriately find the remaining number of units. Required for the endturn function to work properly 
         self.unit_regeneration_number = unit_regeneration_number
         self.alive = True
         self.AssignEnemies() #In this function we created below, we created the enemies according to the name of faction.
@@ -46,32 +46,32 @@ class Faction():  #Here we created a parent class for factions
         print("Unit Regen Number:", self.unit_regeneration_number )
         print("Total Faction Health:", self.total_health_points)
     
-    def EndTurn(self): #This function updates the number of units, total health and alive status of the faction.
-        self.total_attack_power = self.number_of_units* self.attack_points
-        self.total_health_points = self.number_of_units*self._health_points
+    def EndTurn(self): #This function updates the number of units and number of units copy and alive status of the faction.
         if self.total_health_points <= 0 : 
             self.alive == 0 
-        else: self.number_of_units = self.number_of_units + self.unit_regeneration_number
-                 
+        else: 
+            self.number_of_units = self.number_of_units + self.unit_regeneration_number
+            self.number_of_units_copy = self.number_of_units
 
 class Orcs(Faction): # orcs child class created,all features and functions defined in the Faction class have been made available
     def __init__(self,name, number_of_units, attack_point, health_point,unit_regeneration_number ): #We can use the features in the faction class so we don't need to add anything here
         super().__init__(name, number_of_units, attack_point, health_point,unit_regeneration_number)
         
     def PerformAttack(self,enemy1,enemy2): #We have defined the perform attack function. Enemy1 and enemy2 refer to enemy classes. Below we have specified the attack damage that should be performed according to how many of the enemies are alive and which enemy is alive. We calculated the relevant attack damage according to these conditions.
-        if self.enemy1 and self.enemy2 == True :
-            if self.enemy1.name == "Elves":
+        self.total_attack_power = self.number_of_units_copy*self.attack_points
+        if enemy1.alive and enemy2.alive == True :
+            if enemy1.name == "Elves":
                 enemy1.ReceiveAttack(self.name, self.total_attack_power*0.7)
-            if self.enemy2.name == "Elves":
+            if enemy2.name == "Elves":
                 enemy2.ReceiveAttack(self.name,self.total_attack_power*0.7)    
-            if self.enemy1.name == "Dwarves":
+            if enemy1.name == "Dwarves" :
                 enemy1.ReceiveAttack(self.name, self.total_attack_power*0.3)
-            if self.enemy2.name == "Dwarves":
+            if enemy2.name == "Dwarves":
                 enemy2.ReceiveAttack(self.name,self.total_attack_power*0.3)
-        elif self.enemy1 or self.enemy2 ==True:
-            if self.enemy1 == True:
+        elif enemy1.alive or enemy2.alive ==True:
+            if enemy1.alive == True:
                 enemy1.ReceiveAttack(self.name, self.total_attack_power)
-            elif self.enemy2 == True:
+            elif enemy2.alive == True:
                 enemy2.ReceiveAttack(self.name, self.total_attack_power)  
               
     
@@ -95,19 +95,20 @@ class Dwarves(Faction):  #The general structure is the same as the orcs class, w
         super().__init__(name, number_of_units, attack_point, health_point,unit_regeneration_number)
         
     def PerformAttack(self,enemy1,enemy2):  
-        if self.enemy1 and self.enemy2 == True :
-            if self.enemy1.name == "Elves":
+        self.total_attack_power = self.number_of_units_copy*self.attack_points
+        if enemy1.alive and enemy2.alive == True :
+            if enemy1.name == "Elves":
                 enemy1.ReceiveAttack(self.name,self.total_attack_power*0.5)
-            if self.enemy2.name == "Elves":
+            if enemy2.name == "Elves":
                 enemy2.ReceiveAttack(self.name,self.total_attack_power*0.5)    
-            if self.enemy1.name == "Orcs":
+            if enemy1.name == "Orcs":
                 enemy1.ReceiveAttack(self.name, self.total_attack_power*0.5)
-            if self.enemy2.name == "Orcs":
+            if enemy2.name == "Orcs":
                 enemy2.ReceiveAttack(self.name,self.total_attack_power*0.5)
-        elif self.enemy1 or self.enemy2 ==True:
-            if self.enemy1 == True:
+        elif enemy1.alive or enemy2.alive ==True:
+            if enemy1.alive == True:
                 enemy1.ReceiveAttack(self.name,self.total_attack_power)
-            elif self.enemy2 == True:
+            elif enemy2.alive == True:
                 enemy2.ReceiveAttack(self.name, self.total_attack_power)  
               
     
@@ -132,23 +133,24 @@ class Elves(Faction):  # We just edit some numbers and names.
         super().__init__(name, number_of_units, attack_point, health_point,unit_regeneration_number)
 
     def PerformAttack(self,enemy1,enemy2):  
-        if self.enemy1 and self.enemy2 == True :
-            if self.enemy1.name == "Dwarves":
+        self.total_attack_power = self.number_of_units_copy*self.attack_points
+        if enemy1.alive and enemy2.alive == True :
+            if enemy1.name == "Dwarves":
                 enemy1.ReceiveAttack(self.name, self.total_attack_power*0.6) #We made it 0.4*1.5 because it attacks drawves fifty percent more
-            if self.enemy2.name == "Dwarves":
+            if enemy2.name == "Dwarves":
                 enemy2.ReceiveAttack(self.name, self.total_attack_power*0.6)    
-            if self.enemy1.name == "Orcs":
+            if enemy1.name == "Orcs":
                 enemy1.ReceiveAttack(self.name, self.total_attack_power*0.6)
-            if self.enemy2.name == "Orcs":
+            if enemy2.name == "Orcs":
                 enemy2.ReceiveAttack(self.name,self.total_attack_power*0.6)
-        elif self.enemy1 or self.enemy2 ==True: #If there is only one living enemy and that drawves, we changed this part because the attack damage has changed. We have identified who the living enemy is.
-            if self.enemy1 == True:
-                if self.enemy1.name == "Orcs":
+        elif enemy1.alive or enemy2.alive ==True: #If there is only one living enemy and that drawves, we changed this part because the attack damage has changed. We have identified who the living enemy is.
+            if enemy1.alive == True:
+                if enemy1.name == "Orcs":
                     enemy1.ReceiveAttack(self.name, self.total_attack_power)
                 else:
                     enemy1.ReceiveAttack(self.name, self.total_attack_power*1.5)
-            elif self.enemy2 == True:
-                if self.enemy2.name == "Orcs":
+            elif enemy2.alive == True:
+                if enemy2.name == "Orcs":
                     enemy2.ReceiveAttack(self.name, self.total_attack_power)  
                 else:
                     enemy2.ReceiveAttack(self.name, self.total_attack_power*1.5)  
@@ -225,6 +227,9 @@ class Merchant():  #Merchant class has been created and the following features (
     def EndTurn(self):
         self.weapon_point_left= self.starting_weapon_point
         self.armor_point_left = self. starting_armor_point
+        self.faction_Dwarves.EndTurn()
+        self.faction_Elves.EndTurn()
+        self.faction_Orcs.EndTurn()
     
     def start_game(self):
         game_status = 1  #This indicates the status of the game. When this equals 0, the game ends, if it is equal to 1, the game continues, if it is equal to 2, the new game starts
@@ -356,6 +361,58 @@ class Merchant():  #Merchant class has been created and the following features (
                 else:
                     print("There is no such option")
             
+
+            if user_desicion == 2 : 
+                print("Choose what you want to sell, write 1 for weapon, 2 for armor")
+                user_desicion = int(input())
+                print("Choose who you want to sell to, write 1 for Orcs, 2 for Dwarves, 3 for Elves")
+                user_desicion2 = int(input())
+                print("Choose how many you want to sell")
+                user_desicion3 = int(input())
+
+                if user_desicion ==1:
+                    if user_desicion2 == 1:
+                        if self.SellWeapons(self.faction_Orcs,user_desicion3):
+                            self.faction_Orcs.PurchaseWeapons(user_desicion3)
+                            self.revenue = 20*user_desicion3 + self.revenue
+                        
+                    elif user_desicion2 == 2:
+                        if self.SellWeapons(self.faction_Dwarves,user_desicion3):
+                            self.faction_Dwarves.PurchaseWeapons(user_desicion3)
+                            self.revenue = self.revenue + 10*user_desicion3
+                    
+                    elif user_desicion2==3 : 
+                        if self.SellWeapons(self.faction_Elves,user_desicion3):
+                            self.faction_Elves.PurchaseWeapons(user_desicion3)
+                            self.revenue = self.revenue + 15*user_desicion3
+                    
+                    else:
+                        print("There is no such option")
+                
+                if user_desicion == 2:
+                    if user_desicion2 == 1:
+                        if self.SellArmors(self.faction_Orcs,user_desicion3):
+                            self.faction_Orcs.PurchaseArmors(user_desicion3)
+                            self.revenue = self.revenue + user_desicion3
+                    
+                    elif user_desicion2 == 2 :
+                        if self.SellArmors(self.faction_Dwarves,user_desicion3):
+                            self.faction_Dwarves.PurchaseArmors(user_desicion3)
+                            self.revenue = self.revenue + 3*user_desicion3
+                    
+                    elif user_desicion2 == 3:
+                        if self.SellArmors(self.faction_Elves,user_desicion3):
+                            self.faction_Elves.PurchaseArmors(user_desicion3)
+                            self.revenue = self.revenue + 5*user_desicion3
+                    else:
+                        print("There is no such option")
+            
+            if user_desicion == 3:  #attacks and end-of-round updates have occurred
+                self.faction_Dwarves.PerformAttack(self.faction_Elves,self.faction_Orcs)
+                self.faction_Elves.PerformAttack(self.faction_Orcs,self.faction_Dwarves)
+                self.faction_Orcs.PerformAttack(self.faction_Dwarves,self.faction_Elves)
+
+                self.EndTurn()
 
 
 
