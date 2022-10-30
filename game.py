@@ -17,14 +17,6 @@ class Faction():  #Here we created a parent class for factions
         self.enemy1 = self.all_factions[0]
         self.enemy2 = self.all_factions[1]
 
-    def PerformAttack(self): #these are customized for child classes
-        pass
-    
-    def ReceiveAttack(self): #these are customized for child classes
-        pass
-    
-    def PurchaseArmors(self): #these are customized for child classes
-        pass
     
     def Print(self):#print function commonly used for factions and gives the following information
         if self.name == "Orcs":
@@ -47,11 +39,13 @@ class Faction():  #Here we created a parent class for factions
         print("Total Faction Health:", self.total_health_points)
     
     def EndTurn(self): #This function updates the number of units and number of units copy and alive status of the faction.
-        if self.total_health_points <= 0 : 
-            self.alive == 0 
+        if self.number_of_units <= 0 : 
+            self.alive = False 
+            self.total_health_points = self.number_of_units*self._health_points
         else: 
             self.number_of_units = self.number_of_units + self.unit_regeneration_number
             self.number_of_units_copy = self.number_of_units
+            self.total_health_points = self.number_of_units*self._health_points
 
 class Orcs(Faction): # orcs child class created,all features and functions defined in the Faction class have been made available
     def __init__(self,name, number_of_units, attack_point, health_point,unit_regeneration_number ): #We can use the features in the faction class so we don't need to add anything here
@@ -61,24 +55,24 @@ class Orcs(Faction): # orcs child class created,all features and functions defin
         self.total_attack_power = self.number_of_units_copy*self.attack_points
         if enemy1.alive and enemy2.alive == True :
             if enemy1.name == "Elves":
-                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.7)
+                enemy1.ReceiveAttack(self, self.total_attack_power*0.7)
             if enemy2.name == "Elves":
-                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.7)    
+                enemy2.ReceiveAttack(self,self.total_attack_power*0.7)    
             if enemy1.name == "Dwarves" :
-                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.3)
+                enemy1.ReceiveAttack(self, self.total_attack_power*0.3)
             if enemy2.name == "Dwarves":
-                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.3)
+                enemy2.ReceiveAttack(self,self.total_attack_power*0.3)
         elif enemy1.alive or enemy2.alive ==True:
             if enemy1.alive == True:
-                enemy1.ReceiveAttack(self.name, self.total_attack_power)
+                enemy1.ReceiveAttack(self, self.total_attack_power)
             elif enemy2.alive == True:
-                enemy2.ReceiveAttack(self.name, self.total_attack_power)  
+                enemy2.ReceiveAttack(self, self.total_attack_power)  
               
     
-    def ReceiveAttack(self,name_of_attacker, total_damage): #We calculated the reduction in damage based on who the damage came from and reduced the number of units accordingly.
-        if name_of_attacker == "Elves" : 
+    def ReceiveAttack(self,atacker, total_damage): #We calculated the reduction in damage based on who the damage came from and reduced the number of units accordingly.
+        if atacker.name == "Elves" and atacker.alive == True : 
             self.number_of_units =self.number_of_units-(total_damage*0.75/ self._health_points)
-        elif name_of_attacker == "Dwarves":
+        elif atacker.name == "Dwarves" and atacker.alive ==True :
             self.number_of_units =self.number_of_units-(total_damage*0.80/ self._health_points)
         
     
@@ -98,24 +92,24 @@ class Dwarves(Faction):  #The general structure is the same as the orcs class, w
         self.total_attack_power = self.number_of_units_copy*self.attack_points
         if enemy1.alive and enemy2.alive == True :
             if enemy1.name == "Elves":
-                enemy1.ReceiveAttack(self.name,self.total_attack_power*0.5)
+                enemy1.ReceiveAttack(self,self.total_attack_power*0.5)
             if enemy2.name == "Elves":
-                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.5)    
+                enemy2.ReceiveAttack(self,self.total_attack_power*0.5)    
             if enemy1.name == "Orcs":
-                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.5)
+                enemy1.ReceiveAttack(self, self.total_attack_power*0.5)
             if enemy2.name == "Orcs":
-                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.5)
+                enemy2.ReceiveAttack(self,self.total_attack_power*0.5)
         elif enemy1.alive or enemy2.alive ==True:
             if enemy1.alive == True:
-                enemy1.ReceiveAttack(self.name,self.total_attack_power)
+                enemy1.ReceiveAttack(self,self.total_attack_power)
             elif enemy2.alive == True:
-                enemy2.ReceiveAttack(self.name, self.total_attack_power)  
+                enemy2.ReceiveAttack(self, self.total_attack_power)  
               
     
-    def ReceiveAttack(self,name_of_attacker, total_damage):  
-        if name_of_attacker == "Elves" : 
+    def ReceiveAttack(self,attacker, total_damage):  
+        if attacker.name == "Elves" and self.alive == True : 
             self.number_of_units =self.number_of_units-(total_damage/ self._health_points)
-        elif name_of_attacker == "Orcs":
+        elif attacker.name == "Orcs" and attacker.alive == True:
             self.number_of_units =self.number_of_units-(total_damage/ self._health_points)
         
     
@@ -136,30 +130,30 @@ class Elves(Faction):  # We just edit some numbers and names.
         self.total_attack_power = self.number_of_units_copy*self.attack_points
         if enemy1.alive and enemy2.alive == True :
             if enemy1.name == "Dwarves":
-                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.6) #We made it 0.4*1.5 because it attacks drawves fifty percent more
+                enemy1.ReceiveAttack(self, self.total_attack_power*0.6) #We made it 0.4*1.5 because it attacks drawves fifty percent more
             if enemy2.name == "Dwarves":
-                enemy2.ReceiveAttack(self.name, self.total_attack_power*0.6)    
+                enemy2.ReceiveAttack(self, self.total_attack_power*0.6)    
             if enemy1.name == "Orcs":
-                enemy1.ReceiveAttack(self.name, self.total_attack_power*0.6)
+                enemy1.ReceiveAttack(self, self.total_attack_power*0.6)
             if enemy2.name == "Orcs":
-                enemy2.ReceiveAttack(self.name,self.total_attack_power*0.6)
+                enemy2.ReceiveAttack(self,self.total_attack_power*0.6)
         elif enemy1.alive or enemy2.alive ==True: #If there is only one living enemy and that drawves, we changed this part because the attack damage has changed. We have identified who the living enemy is.
             if enemy1.alive == True:
                 if enemy1.name == "Orcs":
-                    enemy1.ReceiveAttack(self.name, self.total_attack_power)
+                    enemy1.ReceiveAttack(self, self.total_attack_power)
                 else:
-                    enemy1.ReceiveAttack(self.name, self.total_attack_power*1.5)
+                    enemy1.ReceiveAttack(self, self.total_attack_power*1.5)
             elif enemy2.alive == True:
                 if enemy2.name == "Orcs":
-                    enemy2.ReceiveAttack(self.name, self.total_attack_power)  
+                    enemy2.ReceiveAttack(self, self.total_attack_power)  
                 else:
-                    enemy2.ReceiveAttack(self.name, self.total_attack_power*1.5)  
+                    enemy2.ReceiveAttack(self, self.total_attack_power*1.5)  
                 
     
-    def ReceiveAttack(self,name_of_attacker, total_damage):  
-        if name_of_attacker == "Elves" : 
+    def ReceiveAttack(self,attacker, total_damage):  
+        if attacker.name == "Elves" and attacker.alive == True : 
             self.number_of_units =self.number_of_units-(total_damage/ self._health_points*1.25)
-        elif name_of_attacker == "Dwarves":
+        elif attacker.name == "Dwarves" and attacker.alive == True:
             self.number_of_units =self.number_of_units-(total_damage/ self._health_points*0.75)
         
     
