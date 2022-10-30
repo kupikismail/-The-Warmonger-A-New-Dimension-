@@ -151,7 +151,7 @@ class Elves(Faction):  # We just edit some numbers and names.
                 
     
     def ReceiveAttack(self,attacker, total_damage):  
-        if attacker.name == "Elves" and attacker.alive == True : 
+        if attacker.name == "Orcs" and attacker.alive == True : 
             self.number_of_units =self.number_of_units-(total_damage/ self._health_points*1.25)
         elif attacker.name == "Dwarves" and attacker.alive == True:
             self.number_of_units =self.number_of_units-(total_damage/ self._health_points*0.75)
@@ -283,16 +283,16 @@ class Merchant():  #Merchant class has been created and the following features (
                     user_desicion = input()
                     if int(user_desicion) == 1:
                         print("Enter the amount you want. The recommended number is 50")
-                        self.Drawres_unit_number = int(input())
+                        self.Dwarves_unit_number = int(input())
                     elif int(user_desicion) ==2:
                         print("Enter the amount you want. The recommended number is 30")
-                        self.Drawres_attack_point= int(input())
+                        self.Dwarves_attack_point= int(input())
                     elif int(user_desicion)==3:
                         print("Enter the amount you want. The recommended number is 150")
-                        self.Drawres_health_point= int(input())
+                        self.Dwarves_health_point= int(input())
                     elif int(user_desicion) == 4:
                         print("Enter the amount you want. The recommended number is 10")
-                        self.Drawres_regeneration_number= int(input())
+                        self.Dwarves_regeneration_number= int(input())
                     else:
                         print("There is no such option, write 1 if you want to make another changes, press 0 if not")
                         user_desicion = input()
