@@ -411,7 +411,9 @@ class Merchant():  #Merchant class has been created and the following features (
             
             elif user_desicion == 4 :  #we ended this game and started a new game
                 game_status == 2 
+                self.revenue = 0
                 self.start_game()
+                
             
             elif user_desicion == 5 :  #end the game
                 game_status = 0 
@@ -420,10 +422,6 @@ class Merchant():  #Merchant class has been created and the following features (
                 print("There is no such option")
             
 
-
-
-
-
                 
 
                 
@@ -434,11 +432,7 @@ class Merchant():  #Merchant class has been created and the following features (
 
 
 
-                        
-
-
-
-
+                    
     
     
 A = Merchant()
