@@ -230,6 +230,7 @@ class Merchant():  #Merchant class has been created and the following features (
         self.faction_Dwarves.EndTurn()
         self.faction_Elves.EndTurn()
         self.faction_Orcs.EndTurn()
+        print("Total revenue: ", self.revenue)
     
     def start_game(self):
         game_status = 1  #This indicates the status of the game. When this equals 0, the game ends, if it is equal to 1, the game continues, if it is equal to 2, the new game starts
@@ -362,7 +363,7 @@ class Merchant():  #Merchant class has been created and the following features (
                     print("There is no such option")
             
 
-            if user_desicion == 2 : 
+            elif user_desicion == 2 : 
                 print("Choose what you want to sell, write 1 for weapon, 2 for armor")
                 user_desicion = int(input())
                 print("Choose who you want to sell to, write 1 for Orcs, 2 for Dwarves, 3 for Elves")
@@ -407,12 +408,25 @@ class Merchant():  #Merchant class has been created and the following features (
                     else:
                         print("There is no such option")
             
-            if user_desicion == 3:  #attacks and end-of-round updates have occurred
+            elif user_desicion == 3:  #attacks and end-of-round updates have occurred
                 self.faction_Dwarves.PerformAttack(self.faction_Elves,self.faction_Orcs)
                 self.faction_Elves.PerformAttack(self.faction_Orcs,self.faction_Dwarves)
                 self.faction_Orcs.PerformAttack(self.faction_Dwarves,self.faction_Elves)
 
                 self.EndTurn()
+            
+            elif user_desicion == 4 :  #we ended this game and started a new game
+                game_status == 2 
+                self.start_game()
+            
+            elif user_desicion == 5 :  #end the game
+                game_status = 0 
+            
+            else:
+                print("There is no such option")
+            
+
+
 
 
 
